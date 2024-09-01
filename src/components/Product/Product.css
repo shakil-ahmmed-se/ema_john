@@ -13,7 +13,7 @@
 .product_description{
     margin-left: 15px;
 }
-.add_cart_btn{
+/* .add_cart_btn{
 
     background-color: goldenrod;
     width: 150px;
@@ -21,7 +21,7 @@
     border: 1px solid gray;
     border-radius: 5px;
     cursor: pointer;
-}
+} */
 
 .icon-color{
     color: gold;
