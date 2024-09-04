@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getStoredCart } from '../../utilities/fakedb';
+import { deleteFromDb, getStoredCart } from '../../utilities/fakedb';
 import fakeData from '../../fakeData';
 import ReviewItem from '../ReviewItem/ReviewItem';
+import Cart from '../Cart/Cart';
 
 const Review = () => {
     const [carts, setCarts] = useState([]);
+    const handleRemoveItem = (productKey) =>{
+        // console.log('removed', productKey);
+        const newCart = carts.filter(pd => pd.key !== productKey);
+        setCarts(newCart);
+        deleteFromDb(productKey);
+    };
     // fetch data from server or local state
     useEffect(()=>{
         const saveCart = getStoredCart();
@@ -18,11 +25,15 @@ const Review = () => {
         setCarts(cartProducts);
     },[]);
     return (
-        <div>
-            <h1>Order Items : {carts.length}</h1>
-            {
-                carts.map(product => <ReviewItem product={product} key={product.key}></ReviewItem>)
-            }
+        <div className='shop_container'>
+            <div className='product_container'>
+                {
+                    carts.map(product => <ReviewItem product={product} key={product.key} handleRemoveItem ={handleRemoveItem}></ReviewItem>)
+                }
+            </div>
+            <div className='cart_container'>
+                <Cart cart={carts}></Cart>
+            </div>
         </div>
     );
 };
