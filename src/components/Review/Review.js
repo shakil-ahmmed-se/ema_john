@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { deleteFromDb, getStoredCart } from '../../utilities/fakedb';
+import { clearTheCart, deleteFromDb, getStoredCart } from '../../utilities/fakedb';
 import fakeData from '../../fakeData';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../Cart/Cart';
+import happyImage from '../../images/giphy.gif'
 
 const Review = () => {
     const [carts, setCarts] = useState([]);
+    const [OrderPlaced, setOrderPlaced] = useState(false);
+    const handlePlaceOrder =()=>{
+        setCarts([]);
+        setOrderPlaced(true);
+        clearTheCart();
+    };
+
     const handleRemoveItem = (productKey) =>{
         // console.log('removed', productKey);
         const newCart = carts.filter(pd => pd.key !== productKey);
@@ -30,9 +38,16 @@ const Review = () => {
                 {
                     carts.map(product => <ReviewItem product={product} key={product.key} handleRemoveItem ={handleRemoveItem}></ReviewItem>)
                 }
+                {
+                    OrderPlaced && <img src={happyImage} alt="" srcSet="" />
+                }
             </div>
             <div className='cart_container'>
-                <Cart cart={carts}></Cart>
+                <Cart cart={carts}>
+                    <button onClick={handlePlaceOrder} className='btn btn-warning'>
+                        Place Order
+                    </button>
+                </Cart>
             </div>
         </div>
     );
